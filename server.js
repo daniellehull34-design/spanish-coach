@@ -10,29 +10,29 @@ app.use(express.json({ limit: "2mb" }));
 
 // Sirve la web desde /public
 app.use(express.static(path.join(process.cwd(), "public")));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(process.cwd(), "public", "index.html"));
+});
 
 // Subidas temporales de audio
 const upload = multer({ dest: path.join(process.cwd(), "uploads") });
 
-// Clave (en local viene del .env; en Render viene de Environment Variables)
+// Clave (local .env / Render Environment)
 const apiKey = (process.env.OPENAI_API_KEY || "").trim();
-
-// DEBUG: no muestra la clave, solo si existe
 console.log("DEBUG: OPENAI_API_KEY present?", !!apiKey);
 
-// Si no hay clave, NO se cae el servidor (así Render detecta el puerto y carga la web)
+// No tumbamos el servidor si falta clave (Render debe ver un puerto abierto)
 const openai = apiKey ? new OpenAI({ apiKey }) : null;
 
 function safeUnlink(p) {
   try { fs.unlinkSync(p); } catch {}
 }
 
-// Health check sencillo (útil para ver si está vivo)
 app.get("/api/health", (req, res) => {
   res.json({ ok: true, hasOpenAIKey: !!apiKey });
 });
 
-// 1) Transcripción
+// 1) Transcripción (con reintentos por ECONNRESET)
 app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
   if (!openai) {
     return res.status(500).json({
@@ -62,42 +62,21 @@ app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
 
         console.error(`TRANSCRIBE attempt ${attempt}/${MAX_TRIES} failed:`, msg, code);
 
-        // Si es error de conexión, reintenta
         if ((isConnReset || isConnErr) && attempt < MAX_TRIES) {
-          const delayMs = 700 * attempt; // 700ms, 1400ms...
+          const delayMs = 800 * attempt; // 800ms, 1600ms...
           await new Promise(r => setTimeout(r, delayMs));
           continue;
         }
 
-        // Si no es un error de conexión o ya no quedan intentos, devuelve error
         return res.status(500).json({
           error: "Transcription failed on the server.",
           details: msg || String(e)
         });
       }
     }
+
+    return res.status(500).json({ error: "Transcription failed after retries." });
   } finally {
-    safeUnlink(filePath);
-  }
-});
-
-  const filePath = req.file?.path;
-  if (!filePath) return res.status(400).json({ error: "No se recibió audio." });
-
-  try {
-    const result = await openai.audio.transcriptions.create({
-      file: fs.createReadStream(filePath),
-      model: "gpt-4o-mini-transcribe"
-    });
-
-    res.json({ transcript: (result.text ?? "").trim() });
-} catch (e) {
-  console.error("TRANSCRIBE ERROR:", e);
-  res.status(500).json({
-    error: "Transcription failed on the server.",
-    details: e?.message || String(e)
-  });
-} finally {
     safeUnlink(filePath);
   }
 });
@@ -154,16 +133,15 @@ app.post("/api/feedback", async (req, res) => {
 
     res.json(json);
   } catch (e) {
-  console.error("FEEDBACK ERROR:", e);
-  res.status(500).json({
-    error: "Feedback failed on the server.",
-    details: e?.message || String(e)
-  });
-}
-
+    console.error("FEEDBACK ERROR:", e?.message || e);
+    res.status(500).json({
+      error: "Feedback failed on the server.",
+      details: e?.message || String(e)
+    });
+  }
 });
 
-// IMPORTANTE: Render exige usar process.env.PORT
+// Render exige usar process.env.PORT
 const PORT = process.env.PORT || 8787;
 app.listen(PORT, () => {
   console.log(`Servidor listo. Escuchando en puerto ${PORT}`);
