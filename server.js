@@ -50,10 +50,13 @@ app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
     });
 
     res.json({ transcript: (result.text ?? "").trim() });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Error transcribiendo el audio." });
-  } finally {
+} catch (e) {
+  console.error("TRANSCRIBE ERROR:", e);
+  res.status(500).json({
+    error: "Transcription failed on the server.",
+    details: e?.message || String(e)
+  });
+} finally {
     safeUnlink(filePath);
   }
 });
@@ -110,9 +113,13 @@ app.post("/api/feedback", async (req, res) => {
 
     res.json(json);
   } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: "Error generando feedback." });
-  }
+  console.error("FEEDBACK ERROR:", e);
+  res.status(500).json({
+    error: "Feedback failed on the server.",
+    details: e?.message || String(e)
+  });
+}
+
 });
 
 // IMPORTANTE: Render exige usar process.env.PORT
