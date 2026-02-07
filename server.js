@@ -43,6 +43,47 @@ app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
   const filePath = req.file?.path;
   if (!filePath) return res.status(400).json({ error: "No se recibió audio." });
 
+  const MAX_TRIES = 3;
+
+  try {
+    for (let attempt = 1; attempt <= MAX_TRIES; attempt++) {
+      try {
+        const result = await openai.audio.transcriptions.create({
+          file: fs.createReadStream(filePath),
+          model: "gpt-4o-mini-transcribe"
+        });
+
+        return res.json({ transcript: (result.text ?? "").trim() });
+      } catch (e) {
+        const msg = e?.message || "";
+        const code = e?.code || e?.cause?.code || "";
+        const isConnReset = code === "ECONNRESET" || msg.includes("ECONNRESET");
+        const isConnErr = (e?.name === "APIConnectionError") || msg.toLowerCase().includes("connection error");
+
+        console.error(`TRANSCRIBE attempt ${attempt}/${MAX_TRIES} failed:`, msg, code);
+
+        // Si es error de conexión, reintenta
+        if ((isConnReset || isConnErr) && attempt < MAX_TRIES) {
+          const delayMs = 700 * attempt; // 700ms, 1400ms...
+          await new Promise(r => setTimeout(r, delayMs));
+          continue;
+        }
+
+        // Si no es un error de conexión o ya no quedan intentos, devuelve error
+        return res.status(500).json({
+          error: "Transcription failed on the server.",
+          details: msg || String(e)
+        });
+      }
+    }
+  } finally {
+    safeUnlink(filePath);
+  }
+});
+
+  const filePath = req.file?.path;
+  if (!filePath) return res.status(400).json({ error: "No se recibió audio." });
+
   try {
     const result = await openai.audio.transcriptions.create({
       file: fs.createReadStream(filePath),
