@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Coach de Español</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="wrap">
+    <h1>Coach de Español (voz + feedback)</h1>
+
+    <h2>Workbook</h2>
+<div id="workbook" class="workbook"></div>
+
+    <label>Actividad / pregunta (opcional)</label>
+    <textarea id="prompt" rows="3" placeholder="Ej.: ¿Has probado alguna vez ese plato?"></textarea>
+
+    <div class="row">
+      <button id="btnRecord">🎙️ Grabar</button>
+      <button id="btnStop" disabled>⏹️ Parar</button>
+      <span id="status">Listo.</span>
+    </div>
+
+    <audio id="player" controls hidden></audio>
+
+    <div class="grid">
+      <div>
+        <h3>Transcripción</h3>
+        <pre id="transcript" class="box">(aquí aparecerá el texto)</pre>
+      </div>
+      <div>
+        <h3>Feedback</h3>
+        <pre id="feedback" class="box">(aquí aparecerá el feedback)</pre>
+      </div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
