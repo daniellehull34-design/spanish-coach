@@ -43,7 +43,7 @@ app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
   const filePath = req.file?.path;
   if (!filePath) return res.status(400).json({ error: "No se recibió audio." });
 
-  const MAX_TRIES = 3;
+  const MAX_TRIES = 6;
 
   try {
     for (let attempt = 1; attempt <= MAX_TRIES; attempt++) {
@@ -63,10 +63,15 @@ app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
         console.error(`TRANSCRIBE attempt ${attempt}/${MAX_TRIES} failed:`, msg, code);
 
         if ((isConnReset || isConnErr) && attempt < MAX_TRIES) {
-          const delayMs = 800 * attempt; // 800ms, 1600ms...
-          await new Promise(r => setTimeout(r, delayMs));
-          continue;
-        }
+  // Backoff: 1.5s, 3s, 6s, 10s... + un poquito de aleatorio
+  const base = Math.min(10000, 1500 * Math.pow(2, attempt - 1));
+  const jitter = Math.floor(Math.random() * 400);
+  const delayMs = base + jitter;
+  console.error(`Retrying in ${delayMs}ms...`);
+  await new Promise(r => setTimeout(r, delayMs));
+  continue;
+}
+
 
         return res.status(500).json({
           error: "Transcription failed on the server.",
