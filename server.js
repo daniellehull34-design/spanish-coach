@@ -14,21 +14,32 @@ app.use(express.static(path.join(process.cwd(), "public")));
 // Subidas temporales de audio
 const upload = multer({ dest: path.join(process.cwd(), "uploads") });
 
-// Clave
-const apiKey = process.env.OPENAI_API_KEY;
-if (!apiKey) {
-  console.error("ERROR: Falta OPENAI_API_KEY en el archivo .env");
-  process.exit(1);
-}
+// Clave (en local viene del .env; en Render viene de Environment Variables)
+const apiKey = (process.env.OPENAI_API_KEY || "").trim();
 
-const openai = new OpenAI({ apiKey });
+// DEBUG: no muestra la clave, solo si existe
+console.log("DEBUG: OPENAI_API_KEY present?", !!apiKey);
+
+// Si no hay clave, NO se cae el servidor (así Render detecta el puerto y carga la web)
+const openai = apiKey ? new OpenAI({ apiKey }) : null;
 
 function safeUnlink(p) {
   try { fs.unlinkSync(p); } catch {}
 }
 
+// Health check sencillo (útil para ver si está vivo)
+app.get("/api/health", (req, res) => {
+  res.json({ ok: true, hasOpenAIKey: !!apiKey });
+});
+
 // 1) Transcripción
 app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
+  if (!openai) {
+    return res.status(500).json({
+      error: "Servidor sin OPENAI_API_KEY configurada en Render. Añádela en Render → Environment."
+    });
+  }
+
   const filePath = req.file?.path;
   if (!filePath) return res.status(400).json({ error: "No se recibió audio." });
 
@@ -49,6 +60,12 @@ app.post("/api/transcribe", upload.single("audio"), async (req, res) => {
 
 // 2) Feedback
 app.post("/api/feedback", async (req, res) => {
+  if (!openai) {
+    return res.status(500).json({
+      error: "Servidor sin OPENAI_API_KEY configurada en Render. Añádela en Render → Environment."
+    });
+  }
+
   const { prompt, transcript } = req.body || {};
   if (!transcript || typeof transcript !== "string") {
     return res.status(400).json({ error: "Falta transcript." });
@@ -98,7 +115,8 @@ app.post("/api/feedback", async (req, res) => {
   }
 });
 
+// IMPORTANTE: Render exige usar process.env.PORT
 const PORT = process.env.PORT || 8787;
 app.listen(PORT, () => {
-  console.log(`Servidor listo en http://localhost:${PORT}`);
+  console.log(`Servidor listo. Escuchando en puerto ${PORT}`);
 });
