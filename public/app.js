@@ -19,17 +19,56 @@ const SECTION_DATA = [
         topic: "Numbers 0-20",
         activities: [
           {
-            title: "Activity 1",
-            prompt: "¿Cuál es tu número de teléfono? What's your phone number?"
-          },
-          {
-            title: "Activity 2",
+            title: "Activity 1 – Phone number",
             prompt:
-              "Count backwards from 10. What is 11, 12, 13, 14 and 15 in Spanish?"
+              "Ask “¿Cuál es tu número de teléfono?” (English: What’s your phone number?) " +
+              "Student answers in Spanish numbers."
           },
           {
-            title: "Activity 3",
-            prompt: "Activity 3 coming soon."
+            title: "Activity 2 – Count backwards",
+            prompt: "Count backwards from 10 (in Spanish)."
+          },
+          {
+            title: "Activity 3 – Remember 11–15",
+            prompt:
+              "Do you remember any of these numbers? 11, 12, 13, 14, 15. " +
+              "Student says them in Spanish."
+          },
+          {
+            title: "Activity 4 – Prices (euros)",
+            prompt:
+              "Now try to say some prices with euros: 5€, 10€, 7€, 9€, 2€, 8€, 3€, 6€. " +
+              "Student says each price in Spanish."
+          },
+          {
+            title: "Activity 5 – Prices (11–15 euros)",
+            prompt:
+              "Now try with euros: 11€, 12€, 13€, 14€, 15€. " +
+              "Student says each price in Spanish."
+          },
+          {
+            title: "Activity 6 – Remember 16–20",
+            prompt:
+              "Do you remember these? 16, 17, 18, 19, 20. " +
+              "Student says them in Spanish."
+          },
+          {
+            title: "Activity 7 – Prices (16–20 euros)",
+            prompt:
+              "Now with euros: 16€, 17€, 18€, 19€, 20€. " +
+              "Student says each price in Spanish."
+          },
+          {
+            title: "Activity 8 – Dictation: write the numbers you hear",
+            prompt:
+              "Student listens and repeats. Teacher (or audio) says 5 numbers between 0–20; " +
+              "student repeats them in Spanish. (Beta: press record and repeat the numbers you hear.)"
+          },
+          {
+            title: "Activity 9 – How much is it? (money recognition)",
+            prompt:
+              "Show money combinations (coins/notes) and ask “¿Cuánto es?” Student answers using " +
+              "“X euros” or “X euros y Y céntimos”. (Beta: examples: 12,50€, 3,20€, 7€, 0,80€.)"
           }
         ]
       },
