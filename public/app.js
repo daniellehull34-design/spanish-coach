@@ -1,41 +1,138 @@
-// ================== WORKBOOK ACTIVITIES ==================
+// ================== COURSE DATA ==================
 
-const ACTIVIDADES = [
+const SECTION_DATA = [
   {
-    titulo: "Unit 1 · Activity 1",
-    prompt:
-      "Activity 1 — NOW YOU.\n" +
-      "Tell me a bit about yourself.\n" +
-      "Say: your name, your age, where you live, where you’re from, what you speak, and your pets (if you have any).\n\n" +
-      "IMPORTANT: Answer in Spanish."
+    id: "espana",
+    title: "Una Vuelta por España",
+    subtitle: "A2-B1 · Culture and slang",
+    description: "Explore Spanish culture, regional slang, and real-life stories.",
+    units: []
   },
   {
-    titulo: "Unit 1 · Activity 2",
-    prompt:
-      "Activity 2 — MY FAMILY.\n" +
-      "Tell me about at least 3 family members.\n" +
-      "Say who they are (mother/father/brother etc.) and their age if you can.\n\n" +
-      "IMPORTANT: Answer in Spanish."
-  },
-  {
-    titulo: "Unit 1 · Activity 3",
-    prompt:
-      "Activity 3 — NUMBERS (short answers, not full sentences).\n" +
-      "1) Say your age (just the number is fine).\n" +
-      "2) Say your house number (you can say individual digits for now!).\n" +
-      "3) Say the day your birthday falls on (just the number).\n\n" +
-      "IMPORTANT: Answer in Spanish."
-  },
-  {
-    titulo: "Unit 1 · Activity 4",
-    prompt:
-      "Activity 4 — GENERAL QUESTIONS.\n" +
-      "Answer these questions (in Spanish):\n" +
-      "1) What’s your name?\n" +
-      "2) How old are you?\n" +
-      "3) Where do you live?\n" +
-      "4) Do you speak Spanish?\n\n" +
-      "IMPORTANT: Answer in Spanish."
+    id: "beginners",
+    title: "Beginners Spanish",
+    subtitle: "A1 · Core foundations",
+    description: "Build your basics with short guided speaking activities.",
+    units: [
+      {
+        title: "Unit 1",
+        topic: "Numbers 0-20",
+        activities: [
+          {
+            title: "Activity 1",
+            prompt: "¿Cuál es tu número de teléfono? What's your phone number?"
+          },
+          {
+            title: "Activity 2",
+            prompt:
+              "Count backwards from 10. What is 11, 12, 13, 14 and 15 in Spanish?"
+          },
+          {
+            title: "Activity 3",
+            prompt: "Activity 3 coming soon."
+          }
+        ]
+      },
+      {
+        title: "Unit 2",
+        topic: "Colours",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 3",
+        topic: "Greetings",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 4",
+        topic: "At the bar",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 5",
+        topic: "Getting to know you",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 6",
+        topic: "Numbers up to 100",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 7",
+        topic: "Age",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 8",
+        topic: "Family",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 9",
+        topic: "At the market",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 10",
+        topic: "Restaurant",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 11",
+        topic: "The time",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      },
+      {
+        title: "Unit 12",
+        topic: "Days and dates",
+        activities: [
+          { title: "Activity 1", prompt: "Activity 1 coming soon." },
+          { title: "Activity 2", prompt: "Activity 2 coming soon." },
+          { title: "Activity 3", prompt: "Activity 3 coming soon." }
+        ]
+      }
+    ]
   }
 ];
 
@@ -48,30 +145,134 @@ const player = document.getElementById("player");
 const transcriptEl = document.getElementById("transcript");
 const feedbackEl = document.getElementById("feedback");
 const promptEl = document.getElementById("prompt");
-const workbookEl = document.getElementById("workbook");
+const sectionsEl = document.getElementById("sections");
+const unitsSectionEl = document.getElementById("unitsSection");
+const unitsTitleEl = document.getElementById("unitsTitle");
+const unitsSubtitleEl = document.getElementById("unitsSubtitle");
+const unitsEl = document.getElementById("units");
+const activitiesSectionEl = document.getElementById("activitiesSection");
+const activitiesTitleEl = document.getElementById("activitiesTitle");
+const activitiesSubtitleEl = document.getElementById("activitiesSubtitle");
+const activitiesEl = document.getElementById("activities");
+const activitySectionEl = document.getElementById("activitySection");
+const activityTitleEl = document.getElementById("activityTitle");
+const activityPromptEl = document.getElementById("activityPrompt");
+const recordRowEl = document.getElementById("recordRow");
 
-// ================== BUILD WORKBOOK BUTTONS ==================
+let currentSection = null;
+let currentUnit = null;
+let currentActivity = null;
 
-workbookEl.innerHTML = "";
+// ================== BUILD SECTION / UNIT / ACTIVITY ==================
 
-ACTIVIDADES.forEach((a) => {
-  const b = document.createElement("button");
-  b.textContent = a.titulo;
-  b.onclick = () => {
-    promptEl.value = a.prompt;
-    promptEl.focus();
-  };
-  workbookEl.appendChild(b);
-});
+function setStatus(t) {
+  statusEl.textContent = t;
+}
+
+function resetFeedback() {
+  transcriptEl.textContent = "(your transcript will appear here)";
+  feedbackEl.textContent = "(your feedback will appear here)";
+  player.hidden = true;
+}
+
+function renderSections() {
+  sectionsEl.innerHTML = "";
+  SECTION_DATA.forEach((section) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <span class="meta">${section.subtitle}</span>
+      <h3>${section.title}</h3>
+      <p>${section.description}</p>
+    `;
+    const button = document.createElement("button");
+    button.textContent = section.units.length ? "View units" : "Coming soon";
+    button.disabled = section.units.length === 0;
+    button.addEventListener("click", () => {
+      currentSection = section;
+      currentUnit = null;
+      currentActivity = null;
+      renderUnits();
+    });
+    card.appendChild(button);
+    sectionsEl.appendChild(card);
+  });
+}
+
+function renderUnits() {
+  if (!currentSection) return;
+  unitsSectionEl.hidden = false;
+  activitiesSectionEl.hidden = true;
+  activitySectionEl.hidden = true;
+  unitsTitleEl.textContent = `${currentSection.title} · Units`;
+  unitsSubtitleEl.textContent = currentSection.subtitle;
+  unitsEl.innerHTML = "";
+
+  currentSection.units.forEach((unit, index) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <span class="meta">Unit ${index + 1}</span>
+      <h3>${unit.title}</h3>
+      <p>${unit.topic}</p>
+    `;
+    const button = document.createElement("button");
+    button.className = "secondary";
+    button.textContent = "Open unit";
+    button.addEventListener("click", () => {
+      currentUnit = unit;
+      currentActivity = null;
+      renderActivities();
+    });
+    card.appendChild(button);
+    unitsEl.appendChild(card);
+  });
+}
+
+function renderActivities() {
+  if (!currentUnit) return;
+  activitiesSectionEl.hidden = false;
+  activitySectionEl.hidden = true;
+  activitiesTitleEl.textContent = `${currentUnit.title} activities`;
+  activitiesSubtitleEl.textContent = currentUnit.topic;
+  activitiesEl.innerHTML = "";
+
+  currentUnit.activities.forEach((activity) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <span class="meta">${currentUnit.title}</span>
+      <h3>${activity.title}</h3>
+      <p>${activity.prompt}</p>
+    `;
+    const button = document.createElement("button");
+    button.textContent = "Start activity";
+    button.addEventListener("click", () => {
+      currentActivity = activity;
+      showActivity();
+    });
+    card.appendChild(button);
+    activitiesEl.appendChild(card);
+  });
+}
+
+function showActivity() {
+  if (!currentActivity) return;
+  activitySectionEl.hidden = false;
+  activityTitleEl.textContent = `${currentUnit.title} · ${currentActivity.title}`;
+  activityPromptEl.textContent = currentActivity.prompt;
+  promptEl.value = currentActivity.prompt;
+  recordRowEl.hidden = false;
+  setStatus("Ready.");
+  resetFeedback();
+}
 
 // ================== AUDIO RECORDING ==================
 
 let mediaRecorder;
 let chunks = [];
 
-function setStatus(t) {
-  statusEl.textContent = t;
-}
+renderSections();
 
 btnRecord.addEventListener("click", async () => {
   chunks = [];
