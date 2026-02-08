@@ -1,241 +1,320 @@
-// ================== WORKBOOK ACTIVITIES ==================
+// ================== COURSE DATA ==================
 
-const ACTIVIDADES = [
-  {
-    titulo: "Unit 1 · Activity 1",
-    prompt:
-      "Activity 1 — NOW YOU.\n" +
-      "Tell me a bit about yourself.\n" +
-      "Say: your name, your age, where you live, where you’re from, what you speak, and your pets (if you have any).\n\n" +
-      "IMPORTANT: Answer in Spanish."
-  },
-  {
-    titulo: "Unit 1 · Activity 2",
-    prompt:
-      "Activity 2 — MY FAMILY.\n" +
-      "Tell me about at least 3 family members.\n" +
-      "Say who they are (mother/father/brother etc.) and their age if you can.\n\n" +
-      "IMPORTANT: Answer in Spanish."
-  },
-  {
-    titulo: "Unit 1 · Activity 3",
-    prompt:
-      "Activity 3 — NUMBERS (short answers, not full sentences).\n" +
-      "1) Say your age (just the number is fine).\n" +
-      "2) Say your house number (you can say individual digits for now!).\n" +
-      "3) Say the day your birthday falls on (just the number).\n\n" +
-      "IMPORTANT: Answer in Spanish."
-  },
-  {
-    titulo: "Unit 1 · Activity 4",
-    prompt:
-      "Activity 4 — GENERAL QUESTIONS.\n" +
-      "Answer these questions (in Spanish):\n" +
-      "1) What’s your name?\n" +
-      "2) How old are you?\n" +
-      "3) Where do you live?\n" +
-      "4) Do you speak Spanish?\n\n" +
-      "IMPORTANT: Answer in Spanish."
+const COURSE = {
+  beginners: {
+    title: "Beginners Spanish",
+    units: [
+      {
+        id: "u1",
+        title: "Unit 1 — Numbers 0–20",
+        activities: [
+          {
+            title: "Activity 1 – Phone number",
+            prompt:
+              "Unit 1 · Activity 1 — Phone number\n\n" +
+              "Question: ¿Cuál es tu número de teléfono?\n" +
+              "English: What's your phone number?\n\n" +
+              "IMPORTANT: Answer in Spanish."
+          },
+          {
+            title: "Activity 2 – Count backwards",
+            prompt:
+              "Unit 1 · Activity 2 — Count backwards\n\n" +
+              "Task: Count backwards from 10.\n\n" +
+              "IMPORTANT: Say the numbers in Spanish."
+          },
+          {
+            title: "Activity 3 – Remember 11–15",
+            prompt:
+              "Unit 1 · Activity 3 — Remember 11–15\n\n" +
+              "Do you remember these numbers?\n" +
+              "11, 12, 13, 14, 15\n\n" +
+              "IMPORTANT: Say them in Spanish."
+          },
+          {
+            title: "Activity 4 – Prices (euros)",
+            prompt:
+              "Unit 1 · Activity 4 — Prices (euros)\n\n" +
+              "Say these prices in Spanish:\n" +
+              "5€, 10€, 7€, 9€, 2€, 8€, 3€, 6€\n\n" +
+              "IMPORTANT: Say each price in Spanish."
+          },
+          {
+            title: "Activity 5 – Prices (11–15€)",
+            prompt:
+              "Unit 1 · Activity 5 — Prices (11–15€)\n\n" +
+              "Now try with euros:\n" +
+              "11€, 12€, 13€, 14€, 15€\n\n" +
+              "IMPORTANT: Say each price in Spanish."
+          },
+          {
+            title: "Activity 6 – Remember 16–20",
+            prompt:
+              "Unit 1 · Activity 6 — Remember 16–20\n\n" +
+              "Do you remember these numbers?\n" +
+              "16, 17, 18, 19, 20\n\n" +
+              "IMPORTANT: Say them in Spanish."
+          },
+          {
+            title: "Activity 7 – Prices (16–20€)",
+            prompt:
+              "Unit 1 · Activity 7 — Prices (16–20€)\n\n" +
+              "Now try with euros:\n" +
+              "16€, 17€, 18€, 19€, 20€\n\n" +
+              "IMPORTANT: Say each price in Spanish."
+          },
+          {
+            title: "Activity 8 – Dictation",
+            prompt:
+              "Unit 1 · Activity 8 — Dictation\n\n" +
+              "Press record and repeat the numbers you hear (0–20).\n\n" +
+              "IMPORTANT: Repeat in Spanish."
+          },
+          {
+            title: "Activity 9 – ¿Cuánto es?",
+            prompt:
+              "Unit 1 · Activity 9 — ¿Cuánto es?\n\n" +
+              "Answer the question: ¿Cuánto es?\n" +
+              "Use: 'X euros' or 'X euros y Y céntimos'.\n\n" +
+              "Examples to practise:\n" +
+              "12,50€ / 3,20€ / 7€ / 0,80€\n\n" +
+              "IMPORTANT: Answer in Spanish."
+          }
+        ]
+      },
+
+      { id: "u2", title: "Unit 2 — Colours", activities: [] },
+      { id: "u3", title: "Unit 3 — Greetings", activities: [] },
+      { id: "u4", title: "Unit 4 — At the bar", activities: [] },
+      { id: "u5", title: "Unit 5 — Getting to know you", activities: [] },
+      { id: "u6", title: "Unit 6 — Numbers up to 100", activities: [] },
+      { id: "u7", title: "Unit 7 — Age", activities: [] },
+      { id: "u8", title: "Unit 8 — Family", activities: [] },
+      { id: "u9", title: "Unit 9 — At the market", activities: [] },
+      { id: "u10", title: "Unit 10 — Restaurant", activities: [] },
+      { id: "u11", title: "Unit 11 — The time", activities: [] },
+      { id: "u12", title: "Unit 12 — Days and dates", activities: [] }
+    ]
   }
-];
+};
 
-// ================== ELEMENTS ==================
+// ================== SCREENS ==================
+
+const screenHome = document.getElementById("screenHome");
+const screenCulture = document.getElementById("screenCulture");
+const screenBeginners = document.getElementById("screenBeginners");
+const screenUnit = document.getElementById("screenUnit");
+
+function showOnly(screen) {
+  [screenHome, screenCulture, screenBeginners, screenUnit].forEach(s => s.hidden = true);
+  screen.hidden = false;
+}
+
+// ================== NAVIGATION ==================
+
+document.getElementById("btnCulture").onclick = () => showOnly(screenCulture);
+
+document.getElementById("btnBeginners").onclick = () => {
+  renderUnits();
+  showOnly(screenBeginners);
+};
+
+document.getElementById("btnBackFromCulture").onclick = () => showOnly(screenHome);
+document.getElementById("btnBackFromBeginners").onclick = () => showOnly(screenHome);
+
+document.getElementById("btnBackToUnits").onclick = () => {
+  renderUnits();
+  showOnly(screenBeginners);
+};
+
+// ================== UNIT LIST ==================
+
+const unitListEl = document.getElementById("unitList");
+const unitTitleEl = document.getElementById("unitTitle");
+const activityListEl = document.getElementById("activityList");
+const activityPromptEl = document.getElementById("activityPrompt");
+
+const transcriptEl = document.getElementById("transcript");
+const feedbackEl = document.getElementById("feedback");
+const statusEl = document.getElementById("status");
+const player = document.getElementById("player");
+const promptEl = document.getElementById("prompt");
+
+let currentUnit = null;
+let currentActivity = null;
+
+function renderUnits() {
+  unitListEl.innerHTML = "";
+  COURSE.beginners.units.forEach((u, idx) => {
+    const b = document.createElement("button");
+    b.textContent = `Unit ${idx + 1}`;
+    b.onclick = () => openUnit(u);
+    unitListEl.appendChild(b);
+  });
+}
+
+function openUnit(unit) {
+  currentUnit = unit;
+  currentActivity = null;
+
+  unitTitleEl.textContent = unit.title;
+  activityPromptEl.textContent = "(select an activity)";
+  transcriptEl.textContent = "(text will appear here)";
+  feedbackEl.textContent = "(feedback will appear here)";
+  statusEl.textContent = "Ready.";
+  player.hidden = true;
+
+  renderActivities(unit);
+  showOnly(screenUnit);
+}
+
+function renderActivities(unit) {
+  activityListEl.innerHTML = "";
+
+  if (!unit.activities.length) {
+    const p = document.createElement("p");
+    p.style.opacity = "0.7";
+    p.textContent = "Activities coming soon.";
+    activityListEl.appendChild(p);
+    return;
+  }
+
+  unit.activities.forEach((a) => {
+    const b = document.createElement("button");
+    b.textContent = a.title;
+    b.onclick = () => {
+      currentActivity = a;
+      activityPromptEl.textContent = a.prompt;
+      promptEl.value = a.prompt;
+    };
+    activityListEl.appendChild(b);
+  });
+}
+
+// ================== RECORDING ==================
 
 const btnRecord = document.getElementById("btnRecord");
 const btnStop = document.getElementById("btnStop");
-const statusEl = document.getElementById("status");
-const player = document.getElementById("player");
-const transcriptEl = document.getElementById("transcript");
-const feedbackEl = document.getElementById("feedback");
-const promptEl = document.getElementById("prompt");
-const workbookEl = document.getElementById("workbook");
-
-// ================== BUILD WORKBOOK BUTTONS ==================
-
-workbookEl.innerHTML = "";
-ACTIVIDADES.forEach((a) => {
-  const b = document.createElement("button");
-  b.textContent = a.titulo;
-  b.onclick = () => {
-    promptEl.value = a.prompt;
-    promptEl.focus();
-  };
-  workbookEl.appendChild(b);
-});
-
-// ================== AUDIO RECORDING ==================
 
 let mediaRecorder = null;
 let chunks = [];
-let currentStream = null;
+let stream = null;
 
 function setStatus(t) {
   statusEl.textContent = t;
 }
 
 function pickMimeType() {
-  // Try best-to-worst. Some phones (iOS Safari) support very limited types.
-  const candidates = [
+  const types = [
     "audio/mp4",
-    "audio/aac",
     "audio/webm;codecs=opus",
     "audio/webm",
     "audio/ogg;codecs=opus",
     "audio/ogg"
   ];
-
-  if (!window.MediaRecorder) return null;
-
-  for (const c of candidates) {
-    try {
-      if (MediaRecorder.isTypeSupported(c)) return c;
-    } catch {}
+  for (const t of types) {
+    if (window.MediaRecorder && MediaRecorder.isTypeSupported(t)) return t;
   }
-  // If none supported, allow browser default by returning empty string
   return "";
 }
 
 function extFromMime(mime) {
-  const m = (mime || "").toLowerCase();
-  if (m.includes("mp4")) return "mp4";
-  if (m.includes("aac")) return "aac";
-  if (m.includes("mpeg")) return "mp3";
-  if (m.includes("wav")) return "wav";
-  if (m.includes("ogg")) return "ogg";
+  if (mime.includes("mp4")) return "mp4";
+  if (mime.includes("ogg")) return "ogg";
   return "webm";
 }
 
-btnRecord.addEventListener("click", async () => {
+btnRecord.onclick = async () => {
+  if (!currentActivity) {
+    setStatus("Select an activity first.");
+    return;
+  }
+
   transcriptEl.textContent = "(recording...)";
   feedbackEl.textContent = "(waiting...)";
-  player.hidden = true;
   chunks = [];
 
-  if (!navigator.mediaDevices?.getUserMedia) {
-    setStatus("This browser cannot access the microphone.");
-    return;
-  }
-  if (!window.MediaRecorder) {
-    setStatus("This browser does not support recording (MediaRecorder). Try Chrome on Android or update iOS/Safari.");
-    return;
-  }
-
   try {
-    currentStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 
-    const chosenMime = pickMimeType();
-    if (chosenMime === null) {
-      setStatus("Recording not supported on this browser.");
-      return;
-    }
+    const mime = pickMimeType();
+    mediaRecorder = mime
+      ? new MediaRecorder(stream, { mimeType: mime })
+      : new MediaRecorder(stream);
 
-    // If chosenMime is "", we let the browser choose defaults.
-    mediaRecorder = chosenMime
-      ? new MediaRecorder(currentStream, { mimeType: chosenMime })
-      : new MediaRecorder(currentStream);
-
-    mediaRecorder.ondataavailable = (e) => {
-      if (e.data && e.data.size > 0) chunks.push(e.data);
-    };
-
-    mediaRecorder.onerror = (e) => {
-      console.error("MediaRecorder error:", e);
-      setStatus("Recording error. Check mic permissions.");
+    mediaRecorder.ondataavailable = e => {
+      if (e.data.size > 0) chunks.push(e.data);
     };
 
     mediaRecorder.onstop = async () => {
-      try {
-        currentStream?.getTracks()?.forEach((t) => t.stop());
-      } catch {}
+      stream.getTracks().forEach(t => t.stop());
 
-      const mime = mediaRecorder?.mimeType || "audio/webm";
-      const blob = new Blob(chunks, { type: mime });
+      const blob = new Blob(chunks, { type: mediaRecorder.mimeType });
 
-      // If blob is empty, nothing was recorded.
-      if (!blob || blob.size < 1000) {
-        transcriptEl.textContent = "(no audio captured)";
-        feedbackEl.textContent = "(no feedback)";
-        setStatus("No audio captured. Try again. If you're on iPhone, try a different browser/device.");
+      if (blob.size < 1000) {
+        setStatus("No audio captured.");
         return;
       }
 
-      await handleAudio(blob, mime);
+      await handleAudio(blob, mediaRecorder.mimeType);
     };
 
-    mediaRecorder.start(); // start recording
+    mediaRecorder.start();
     btnRecord.disabled = true;
     btnStop.disabled = false;
     setStatus("Recording…");
-  } catch (e) {
-    console.error(e);
-    setStatus("Microphone access denied. Enable mic permission for this site.");
-  }
-});
 
-btnStop.addEventListener("click", () => {
-  try {
-    if (mediaRecorder && mediaRecorder.state !== "inactive") {
-      mediaRecorder.stop();
-    }
-  } catch (e) {
-    console.error(e);
+  } catch {
+    setStatus("Microphone permission denied.");
   }
+};
 
-  btnRecord.disabled = false;
+btnStop.onclick = () => {
   btnStop.disabled = true;
+  btnRecord.disabled = false;
   setStatus("Processing…");
-});
+  if (mediaRecorder && mediaRecorder.state !== "inactive") {
+    mediaRecorder.stop();
+  }
+};
 
-async function handleAudio(blob, mimeType) {
-  const url = URL.createObjectURL(blob);
-  player.src = url;
+// ================== AI CALLS ==================
+
+async function handleAudio(blob, mime) {
+  player.src = URL.createObjectURL(blob);
   player.hidden = false;
 
   setStatus("Transcribing…");
 
   const fd = new FormData();
-  const ext = extFromMime(mimeType);
-  fd.append("audio", blob, `audio.${ext}`);
+  fd.append("audio", blob, `audio.${extFromMime(mime)}`);
 
-  let trRes, trData;
-  try {
-    trRes = await fetch("/api/transcribe", { method: "POST", body: fd });
-    trData = await trRes.json();
-  } catch (e) {
-    console.error(e);
-    transcriptEl.textContent = "Network error calling /api/transcribe";
-    setStatus("Error.");
-    return;
-  }
+  const trRes = await fetch("/api/transcribe", { method: "POST", body: fd });
+  const trData = await trRes.json();
 
   if (!trRes.ok) {
-    transcriptEl.textContent = (trData?.error || "Transcription error.") + (trData?.details ? `\n${trData.details}` : "");
+    transcriptEl.textContent = trData.error || "Transcription error.";
     setStatus("Error.");
     return;
   }
 
-  const transcript = (trData.transcript || "").trim();
-  transcriptEl.textContent = transcript || "(empty)";
+  transcriptEl.textContent = trData.transcript || "(empty)";
 
   setStatus("Generating feedback…");
 
-  let fbRes, fbData;
-  try {
-    fbRes = await fetch("/api/feedback", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ prompt: (promptEl.value || "").trim() || null, transcript })
-    });
-    fbData = await fbRes.json();
-  } catch (e) {
-    console.error(e);
-    feedbackEl.textContent = "Network error calling /api/feedback";
-    setStatus("Error.");
-    return;
-  }
+  const fbRes = await fetch("/api/feedback", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      prompt: promptEl.value,
+      transcript: trData.transcript
+    })
+  });
+
+  const fbData = await fbRes.json();
 
   if (!fbRes.ok) {
-    feedbackEl.textContent = (fbData?.error || "Feedback error.") + (fbData?.details ? `\n${fbData.details}` : "");
+    feedbackEl.textContent = fbData.error || "Feedback error.";
     setStatus("Error.");
     return;
   }
@@ -243,3 +322,7 @@ async function handleAudio(blob, mimeType) {
   feedbackEl.textContent = JSON.stringify(fbData, null, 2);
   setStatus("Done.");
 }
+
+// ================== START ==================
+
+showOnly(screenHome);
