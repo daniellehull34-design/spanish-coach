@@ -3,37 +3,72 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Coach de Español</title>
+  <title>LA BURBUJA</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <main class="wrap">
-    <h1>Coach de Español (voz + feedback)</h1>
+    <h1>LA BURBUJA</h1>
+    <p class="tagline">Coach de Español (voz + feedback)</p>
+    <p class="lede">Beta version: choose a section, then pick a unit and activity.</p>
 
-    <h2>Workbook</h2>
-<div id="workbook" class="workbook"></div>
-
-    <label>Actividad / pregunta (opcional)</label>
-    <textarea id="prompt" rows="3" placeholder="Ej.: ¿Has probado alguna vez ese plato?"></textarea>
-
-    <div class="row">
-      <button id="btnRecord">🎙️ Grabar</button>
-      <button id="btnStop" disabled>⏹️ Parar</button>
-      <span id="status">Listo.</span>
-    </div>
-
-    <audio id="player" controls hidden></audio>
-
-    <div class="grid">
-      <div>
-        <h3>Transcripción</h3>
-        <pre id="transcript" class="box">(aquí aparecerá el texto)</pre>
+    <section class="card-section">
+      <div class="section-header">
+        <h2>Sections</h2>
+        <p>Start your journey with the course that fits your level.</p>
       </div>
-      <div>
-        <h3>Feedback</h3>
-        <pre id="feedback" class="box">(aquí aparecerá el feedback)</pre>
+      <div id="sections" class="card-grid"></div>
+    </section>
+
+    <section id="unitsSection" class="card-section" hidden>
+      <div class="section-header">
+        <h2 id="unitsTitle">Units</h2>
+        <p id="unitsSubtitle"></p>
       </div>
-    </div>
+      <div id="units" class="card-grid"></div>
+    </section>
+
+    <section id="activitiesSection" class="card-section" hidden>
+      <div class="section-header">
+        <h2 id="activitiesTitle">Activities</h2>
+        <p id="activitiesSubtitle"></p>
+      </div>
+      <div id="activities" class="card-grid"></div>
+    </section>
+
+    <section id="activitySection" class="activity-section" hidden>
+      <div class="activity-header">
+        <div>
+          <p class="eyebrow">Selected activity</p>
+          <h2 id="activityTitle">Choose an activity</h2>
+        </div>
+        <span id="status" class="status-pill">Ready.</span>
+      </div>
+      <div class="activity-card">
+        <p id="activityPrompt" class="activity-prompt">Choose an activity to see the question.</p>
+      </div>
+
+      <div id="recordRow" class="row" hidden>
+        <button id="btnRecord">🎙️ Record</button>
+        <button id="btnStop" disabled>⏹️ Stop</button>
+        <span class="hint">Speak your answer and wait for feedback.</span>
+      </div>
+
+      <audio id="player" controls hidden></audio>
+
+      <div class="grid">
+        <div>
+          <h3>Transcription</h3>
+          <pre id="transcript" class="box">(your transcript will appear here)</pre>
+        </div>
+        <div>
+          <h3>Feedback</h3>
+          <pre id="feedback" class="box">(your feedback will appear here)</pre>
+        </div>
+      </div>
+    </section>
+
+    <textarea id="prompt" rows="3" hidden></textarea>
   </main>
 
   <script src="app.js"></script>
